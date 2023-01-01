@@ -4,6 +4,7 @@ import { BoardsModule } from './boards.module';
 import { v1 as uuid } from "uuid";
 import { CreateBoardDto } from './dto/create-board';
 import { throws } from 'assert';
+import { BadRequestException, NotFoundException } from '@nestjs/common/exceptions';
 
 @Injectable()
 export class BoardsService {
@@ -33,7 +34,13 @@ export class BoardsService {
     }
 
     getBoardById(id: String): Board{
-        return this.boards.find((board) => board.id === id)
+        const found = this.boards.find((board) => board.id === id);
+
+        if(!found){
+            throw new NotFoundException(`The post with that number could not be found. ID : ${id}`);
+        }
+
+        return found;
     }
 
     createBoard(createBoardDto: CreateBoardDto): Board{
@@ -58,15 +65,15 @@ export class BoardsService {
          * 여러 요소를 여러개를 제거할 때는 2,3번이 안정적이고 빠르며
          * 하나의 요소를 제거할 때는 indexof 가 안정적이고 빠르다
          */
-        
-        const boardIndex = this.boards.findIndex((board) => board.id === id)
+        const found = this.getBoardById(id);
+        const boardIndex = this.boards.findIndex((board) => board.id === found.id)
         this.boards.splice(boardIndex, 1)
         return this.boards
     }
     
     updateBoard(id: String, boardStatus: BoardStatus): Board{
-        const board = this.getBoardById(id);
-        board.status = boardStatus;
-        return board;
+        const found = this.getBoardById(id);
+        found.status = boardStatus;
+        return found;
     }
 }
