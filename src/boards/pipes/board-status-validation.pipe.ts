@@ -1,5 +1,4 @@
 import { ArgumentMetadata, BadRequestException, Logger, PipeTransform } from "@nestjs/common";
-import { of } from "rxjs";
 import { BoardStatus } from "../board.model";
 
 /**
