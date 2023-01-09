@@ -5,6 +5,7 @@ import { BoardsService } from './boards.service';
 import { Logger } from '@nestjs/common';
 import { CreateBoardDto } from './dto/create-board';
 import { Delete, Patch, Put, UsePipes } from '@nestjs/common/decorators';
+import { BoardStatusValidationPipe } from './pipes/board-status-validation.pipe';
 
 @Controller('boards')
 export class BoardsController {
@@ -46,7 +47,7 @@ export class BoardsController {
     @Patch("/:id")
     updateBoard(
         @Param("id") id: String,
-        @Body("status") status: BoardStatus): Board {
+        @Body("status", BoardStatusValidationPipe) status: BoardStatus): Board {
         Logger.log("request :: updateBoard", status)
         return this.boardService.updateBoard(id, status);
     }
