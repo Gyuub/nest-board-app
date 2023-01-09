@@ -3,7 +3,7 @@ import { throws } from 'assert';
 import { Board, BoardStatus } from './board.model';
 import { BoardsService } from './boards.service';
 import { Logger } from '@nestjs/common';
-import { CreateBoardDto } from './dto/create-board';
+import { CreateBoardDto } from '../../boards/dto/create-board';
 import { Delete, Patch, Put, UsePipes } from '@nestjs/common/decorators';
 import { BoardStatusValidationPipe } from './pipes/board-status-validation.pipe';
 
